@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebShop.Models.ReviewContent>
+
+
+<h3>Reviews </h3>
+
+
+<p><a href="#" id="btnModal" style="background-color:transparent" data-toggle="modal" data-target="#myModal"> Write new Review </a></p>
+
+@foreach (var item in Model)
+{
+
+
+    <p>
+        @Html.DisplayNameFor(model => model.Name)  : &nbsp;
+        @Html.DisplayFor(modelItem => item.Name)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.CreatedDate) : &nbsp;
+        @Html.DisplayFor(modelItem => item.CreatedDate)
+    </p>
+
+    <p>
+        @Html.DisplayNameFor(model => model.Email)  : &nbsp;
+        @Html.DisplayFor(modelItem => item.Email)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Location) : &nbsp;
+        @Html.DisplayFor(modelItem => item.Location)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Rating)  : &nbsp;
+        @for (int i = 0; i < item.Rating; i++)
+        {
+            <i class="glyphicon glyphicon-star"></i>
+
+        }
+        @for (int i = item.Rating; i < 5; i++)
+        {
+            <i class="glyphicon glyphicon-star-empty"> </i>
+        }
+
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Title) &nbsp; : &nbsp;
+        @Html.DisplayFor(modelItem => item.Title)
+
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.Body) &nbsp; : &nbsp;
+        @Html.DisplayFor(modelItem => item.Body)
+    </p>
+
+    <hr />
+
+
+}
+

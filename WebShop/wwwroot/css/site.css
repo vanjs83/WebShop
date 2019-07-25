@@ -1,0 +1,274 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    /* background-image: url("https://thedesignlove.com/wp-content/uploads/2012/09/TDL-Pattern-06.jpg") */
+    background-image: url("https://thedesignlove.com/wp-content/uploads/2012/09/TDL-Pattern-04.jpg")
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+  padding:0;
+  background-color:whitesmoke;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+
+thead, tbody, td, th, tr {
+    border: 1px solid black;
+}
+
+
+
+    dt{
+        width:25% !important;
+        text-align:left !important;
+    }
+
+    dd, dt{
+        
+        font-size: larger !important; 
+    }
+
+
+footer {
+    position: inherit;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4d5057;
+    color: whitesmoke;
+    text-align: center;
+}
+
+
+
+
+/* For side navigation*/
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 35px;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}
+
+
+
+#map {
+    
+    height: 300px; /* The height is 400 pixels */
+    width: 100%; /* The width is the width of the web page */
+}
+
+#div1{
+    font-size:large;
+    font-weight:bold;
+    color:green;
+}
+
+#name {
+    font-size: large;
+    font-weight: bold;
+    color:maroon;
+}
+
+
+
+
+/* Style The Dropdown Button */
+.dropbtn {
+   /* background-color: black;*/
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1 
+        }
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    /* background-color: #3e8e41; */
+    background-color:none;
+}
+
+
+#navbar {
+    transition: top 0.3s; /* Transition effect when sliding down (and up) */
+}
+
+
+.required:after {
+    content: "*";
+    font-weight: bold;
+    color: red;
+}
+
+
+
+#createUser {
+    background-image: url(https://thewallpaper.co//wp-content/uploads/2016/10/imgaes-download-beach-summer-backgrounds-windows-wallpapers-download-free-amazing-cool-background-images-mac-tablet-1920x1080.jpg);
+    color: white;
+}
+
+
+
+.poperty-container {
+    font-size:larger;
+    margin-bottom:0px;
+}
+
+.value-div1{
+    margin-top:0px;
+
+}
+
+
+table.dataTable thead {
+    background-color: #4d5057;
+    color: whitesmoke;
+}
+
+
+
+h2, h3, h4 {
+    
+    font-weight: bold;
+    font-style: normal;
+    text-transform: uppercase;
+    color: #233e6b;
+}
+
+
+
+
+.button--small {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+}
+
+.button--green {
+    outline: none;
+    background-color: #64d18a;
+    border-color: #64d18a;
+    color: white;
+    transition: all 200ms ease;
+}
+
+    .button--green:hover {
+        background-color: #8bdda8;
+        color: white;
+    }
+
+
+
+
+
+
+

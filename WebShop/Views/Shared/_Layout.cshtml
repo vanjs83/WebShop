@@ -1,0 +1,213 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--Paypal-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <title>@ViewData["Title"] - WebShop</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebShop</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+
+
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Product" asp-action="Index">Product</a></li>
+                        <li><a asp-area="" asp-controller="MeasuringUnit" asp-action="Index">Unit of measure</a></li>
+                        <li><a asp-area="" asp-controller="Category" asp-action="Index">Category</a></li>
+                        <li><a asp-area="" asp-controller="ProductCategory" asp-action="Index">ProductCategory</a></li>
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Gallery">Gallery</a></li>
+                        <li class="dropdown">
+                            <a class="dropbtn">WebShop</a>
+                            <ul class="dropdown-content" aria-labelledby="dropdownMenuLink">
+                                <li class="dropdown-item">
+                                    <a asp-area="" asp-controller="WebShop" asp-action="Index">Shopping</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a asp-area="" asp-controller="WebShop" asp-action="Product">Product</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="active">
+                            <a href="@Url.Action("Index", "Cart")">
+                                <span class="glyphicon glyphicon-shopping-cart" style="color:green"></span>Cart <span class="badge">@HttpContextAccessor.HttpContext.Session.GetInt32("count")</span>
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <div class="container">
+
+        @RenderBody()
+       
+    </div>
+   
+        <hr />
+      
+  
+    <footer>
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-4">
+                <p>Join us on</p>
+
+                <p> <a style="color:whitesmoke" href="#"> <i class="fa fa-facebook-square  fa-2x"></i>Facebook</a> </p>
+
+               <p>  <a style="color:whitesmoke" href="#"><i class="fa fa-twitter fa-2x"></i>Twitter</a> </p>
+
+               <p>  <a style="color:whitesmoke" href="#"><i class="fa fa-instagram fa-2x"></i>Instagram</a> </p>
+
+            </div>
+
+            <div class="col-lg-4">
+   
+             <p>&copy; @DateTime.Now.Year - WebShop</p>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        <p>San Francisco, CA 94126, USA</p>
+                    </li>
+
+                    <li>
+                        <i class="glyphicon glyphicon-phone-alt"></i>
+                        <p>+ 01 234 567 89</p>
+                    </li>
+
+                    <li>
+                        <i class="glyphicon glyphicon-envelope"></i>
+                        <p>contact@easybuy.com</p>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </footer>
+               
+
+   
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+
+     <!--   <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script> -->
+
+
+        <link type="text/css" rel="stylesheet" href="~/css/magiczoomplus.css" />
+        <script type="text/javascript" src="~/js/magiczoomplus.js"></script>
+
+
+        <!--Import jQuery before export.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+
+        <!--Data Table-->
+        <script type="text/javascript" src=" https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src=" https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+
+
+        <!--Export table buttons-->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
+
+        <!--Export table button CSS-->
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
+
+
+
+
+
+        
+        <!-- BS JavaScript -->
+        <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+
+
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+    
+</body>
+</html>

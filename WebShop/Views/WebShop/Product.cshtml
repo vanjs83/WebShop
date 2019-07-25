@@ -1,0 +1,111 @@
+﻿
+@model WebShop.Common.ModelPaging
+
+    @*  @model IEnumerable<WebShop.Models.ProductCategory> *@
+
+
+
+    @{
+        ViewData["Title"] = "Welcome to Webshop";
+
+    }
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/WebShop/Index">Product</a>
+        <a href="/Home/Index">Home</a>
+        <a href="/Home/About">About</a>
+        <a href="/Cart/Index">Cart</a>
+    </div>
+
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Webshop</span>
+
+    <div class="breadcrump hidden-md">
+        <h3 class="breadcrumb" style="color:crimson">@TempData["Message"]</h3>
+    </div>
+
+
+    <div class="row">
+        @foreach (var item in Model.Data)
+        {
+            <div class="col-lg-3">
+
+                <div id="div1">
+
+
+
+                    <div id="name">
+                        @Html.DisplayNameFor(model => item.Product.Name) :
+                        @Html.DisplayFor(model => item.Product.Name)
+                    </div>
+
+
+                    <div>
+
+                        <a asp-action="Details" asp-route-id="@item.ProductId">
+                            @if (item.Product.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.Product.Image);
+                                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                <img src='@imgsrc' style="max-width:200px;max-height:200px" />
+                            }
+                        </a>
+                    </div>
+
+
+                    <div>
+                        @Html.DisplayNameFor(model => item.Category.Name)  :
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </div>
+
+                    <div>
+                        @Html.DisplayNameFor(model => item.Product.Quantity) :
+                        @Html.DisplayFor(modelItem => item.Product.Quantity)
+                    </div>
+
+                    <div>
+                        @Html.DisplayNameFor(model => item.Product.Available) :
+                       <!-- @Html.DisplayFor(modelItem => item.Product.Available) -->
+                        @(item.Product.Available ? "Yes" : "No")
+
+                    </div>
+
+                    <div>
+                        @Html.DisplayNameFor(model => item.Product.Price) :
+                        @Html.DisplayFor(modelItem => item.Product.Price)
+                        <i class="glyphicon glyphicon-euro"> </i>
+
+                    </div>
+
+                    <div>
+                        <a href="@Url.Action("Details","WebShop", new { id = item.Product.ProductId})" class="btn btn-info"><i class="glyphicon-eye-open"></i>Details</a>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        }
+        <hr />
+    </div>
+
+
+    <div>
+        <ul class="pagination">
+            <li class="page-item @(!Model.ShowFirst? "disabled":"")">
+                <a asp-page="/product" asp-route-currentPage="1" class="page-link"><i class="fa fa-fast-backward"></i></a>
+            </li>
+
+            <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
+                <a asp-page="/product" asp-route-currentPage="@(Model.CurrentPage -1)" class="page-link"><i class="fa fa-step-backward"></i></a>
+            </li>
+            <li class="page-item  @(!Model.ShowNext? "disabled":"")">
+                <a asp-page="/product" asp-route-currentPage="@(Model.CurrentPage + 1)" class="page-link"><i class="fa fa-step-forward"></i></a>
+            </li>
+
+            <li class="page-item  @(!Model.ShowLast? "disabled":"")">
+                <a asp-page="/product" asp-route-currentPage="@Model.TotalPages" class="page-link"><i class="fa fa-fast-forward"></i></a>
+            </li>
+        </ul>
+    </div>

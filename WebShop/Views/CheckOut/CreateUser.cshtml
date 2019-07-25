@@ -1,0 +1,124 @@
+﻿@model WebShop.Models.User
+
+@{
+    ViewData["Title"] = "CreateUser";
+}
+
+
+
+
+<div id="createUser">
+
+    <div class="container">
+        <form asp-action="CreateUser">
+
+            <div asp-validation-summary="All" class="white-bg"></div>
+
+            <fieldset>
+                <legend style="color:white">
+                    Please input your personal information!
+                </legend>
+
+
+
+                <div class="row">
+                    <div class="col-md-2 text-right">   <label asp-for="Name" class="control-label required"></label> </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"><i class="fa fa-info-circle" title="Input your name"></i></div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 text-right">   <label asp-for="LastName" class="control-label required"></label>  </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"><i class="fa fa-info-circle" title="Input your Last name"></i></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 text-right">    <label asp-for="Country" class="control-label required"></label>   </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"> <i class="fa fa-info-circle" title="Input your Counrty name"></i> </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 text-right">   <label asp-for="City" class="control-label required"></label>  </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"> <i class="fa fa-info-circle" title="Input your City name"></i> </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 text-right">   <label asp-for="Address" class="control-label required"></label>  </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"> <i class="fa fa-info-circle" title="Input your Address"></i> </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 text-right">   <label asp-for="PostalCode" class="control-label required"></label>   </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="PostalCode" class="form-control" />
+                        <span asp-validation-for="PostalCode" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"> <i class="fa fa-info-circle" title="Input your PostalCode"></i> </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 text-right">   <label asp-for="PhoneNumber" class="control-label required"></label>  </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"> <i class="fa fa-info-circle" title="Input your Phone Number"></i> </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 text-right">  <label asp-for="Email" class="control-label required"></label>   </div>
+                    <div class="form-group col-md-6">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="white-bg"></span>
+                    </div>
+                    <div class="col-md-1"> <i class="fa fa-info-circle" title="Input your Phone Number"></i> </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">  </div>
+                    <div class="form-group col-lg-6">
+                        <input type="submit" value="Send" class="btn btn-primary" />
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+
+
+    <div class="container">
+        <a asp-action="Index" asp-controller="WebShop" class="btn btn-info">Back to WebShop</a>
+    </div>
+
+</div>
+
+
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

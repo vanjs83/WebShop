@@ -1,0 +1,477 @@
+﻿@model WebShop.Models.ProductCategory
+
+@{
+    ViewData["Title"] = "Details";
+
+}
+
+
+
+<div class="breadcrumb"><h2>Product Specification</h2>
+    <p>@TempData["Message"]</p>
+</div>
+<hr />
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+
+            <dl>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.Image)
+                </dt>
+                <dd>
+
+                    @{
+                        var base64 = Convert.ToBase64String(Model.Product.Image);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+
+                    }
+
+                    <a href="@imgsrc" class="MagicZoom" data-options="zoomWidth:70%; zoomHeight:100%"><img src="@imgsrc"></a>
+
+                </dd>
+
+            </dl>
+
+
+        </div>
+
+
+
+        <div class="col-lg-6">
+
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.CreatedDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.CreatedDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.ModifiedDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.ModifiedDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.Quantity)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.Quantity)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.Available)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.Available)
+                    @(Model.Product.Available ? "Yes" : "No")
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.Price)
+                </dt>
+                <dd>
+                    <i class="glyphicon glyphicon-euro"> </i>
+                    @Html.DisplayFor(model => model.Product.Price)
+                </dd>
+
+                <!--
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.Description)
+                </dd>
+                    -->
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Category.Name)
+                </dd>
+
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Product.MeasuringUnit)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Product.MeasuringUnit.Unit)
+                </dd>
+
+
+
+            </dl>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+        <div class="col-lg-3">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </span>
+                <input type="number" id="quantity" name="quantity" class="form-control input-number" value="0" min="0" max="@Model.Product.Quantity">
+                <span class="input-group-btn">
+                    <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <p></p>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <a onclick="addToCart('@Model.Product.ProductId');" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-shopping-cart">Add to Cart</span>
+            </a>
+        </div>
+
+        <div class="col-lg-2">
+            <a id="btn_add" href="@Url.Action("Index", "WebShop")" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-eye-open"></span> Continue shopping
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<hr />
+
+
+
+<div class="row">
+    <div class='poperty-container'>
+        <button id='key-div1' style="background-color:transparent" class="btn btn-default" onclick="getViewDescription('@Model.Product.ProductId', this)"> Description </button>
+        <button id='key-div2' style="background-color:transparent" class="btn btn-default" onclick="getViewGeometry('@Model.Product.ProductId', this)"> Geometry </button>
+
+        <button class="btn btn-default" style="background-color:transparent" onclick="getViewTechSpec('@Model.Product.ProductId', this)">Tech Spec</button>
+        <!-- <button onclick="Reviews()">Reviews</button> -->
+        <!-- Button trigger modal -->
+        <button  style="background-color:transparent" class="btn btn-default"   href="#" onclick="getAllReviews('@Model.Product.ProductId')">Reviews</button>
+     <!--   <a href="#" id="btnModal"  style="background-color:transparent" data-toggle="modal" data-target="#myModal"> Write new Review </a> -->
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="exampleModalLabel">Customer Reviews</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                  <div class="modal-body">
+
+                        <input type="hidden" name="id" value="@Model.Product.ProductId" id="id" />
+
+                        <div class="row">
+                            
+                            <div class="form-group col-lg-6">
+                                <label>Name</label>
+                                <input type="text" name="names" class="form-control" id="names" />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" id="email" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>Location</label>
+                            <input type="text" name="location" class="form-control" id="location" />
+                        </div>
+                        </div>
+
+                        
+                        <div class="row col-lg-12 ">
+                            <label>Rating</label>
+
+                            <div>
+                                <a style="text-decoration: none" href="#" onclick="setRating(this)" class="glyphicon glyphicon-star-empty" data-value="1" aria-label="1 of 5 stars">&nbsp;</a>
+                                <a style="text-decoration: none" href="#" onclick="setRating(this)" class="glyphicon glyphicon-star-empty" data-value="2" aria-label="2 of 5 stars">&nbsp;</a>
+                                <a style="text-decoration: none" href="#" onclick="setRating(this);return false;" class="glyphicon glyphicon-star-empty" data-value="3" aria-label="3 of 5 stars">&nbsp;</a>
+                                <a style="text-decoration: none" href="#" onclick="setRating(this);return false;" class="glyphicon glyphicon-star-empty" data-value="4" aria-label="4 of 5 stars">&nbsp;</a>
+                                <a style="text-decoration: none" href="#" onclick="setRating(this);return false;" class="glyphicon glyphicon-star-empty" data-value="5" aria-label="5 of 5 stars">&nbsp;</a>
+                            </div>
+
+                        </div>
+                      
+                       <div class="row">
+                          <div class="form-group col-lg-12">
+                             <label>Review title</label>
+                             <input type="text" name="title" class="form-control" id="title" />
+                          </div>
+                       </div>
+
+                      <div class="row">
+                          <div class="form-group col-lg-12">
+                             <label>Body review</label>
+                             <textarea name="body" class="form-control col-lg-12" rows="5" maxlength="50" style="resize:none" id="body" ></textarea>
+                           </div>
+                       </div>
+
+                   </div>
+
+                       <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                         <button type="button" id="myButton" class="btn btn-primary"> Send </button>
+                      </div>
+                 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <div class='value-div1' style="background-color:white">
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    @section Scripts
+        {
+        <script>
+
+            var rating;
+
+
+            function setRating(sender)
+            {
+                rating = $(sender).attr("data-value");
+                alert(rating);
+            }
+
+
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+            });
+
+
+
+
+
+            $(document).ready(function () {
+                $('#myButton').click(function () {
+                
+                    
+
+                 
+
+                    var id = $("#id").val();
+                    var name = $("#names").val();
+                    var email = $("#email").val();
+                    var location = $("#location").val();
+                    
+                    var title = $("#title").val();
+                    var body = $("#body").val();
+
+                    var object = {
+                        ProductId: id,
+                        Name: name,
+                        Email: email,
+                        Location: location,
+                        Rating: rating,
+                        Title: title,
+                        Body: body
+                    };
+
+                    alert(object.ProductId);
+
+                    $.ajax({
+                        url: '/WebShop/Review/',
+                        type: 'GET',
+                        dataType: "json",
+                        data: object,
+                        contentType: "application/json; charset=utf-8",
+                    }).success(function (result) {
+                        alert(result);
+                        console.log(result);
+                        if (result == 'ok')
+                            $('#myModal').modal('hide');
+
+                        });
+                });
+
+            }); 
+                    
+
+                
+
+
+
+
+
+    function addToCart(id) {
+
+    $(function () {
+
+        var q = parseInt($('#quantity').val());
+        alert("Add to cart " + q + " Product");
+
+    $.ajax({
+    type: "GET",
+    url: '/Cart/AddToCart/',
+    data: { id: id, q: q },
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: successFunc,
+    error: errorFunc
+    });
+
+    function successFunc(data, status) {
+    alert('success');
+    window.location.href = data;
+    }
+
+    function errorFunc() {
+    alert('error');
+    }
+    });
+    }
+
+
+            
+    function getAllReviews(parameter) {
+    $(function () {
+
+
+
+    var url = "@Html.Raw(Url.Action("Reviews", "WebShop", new { productId = "-parameter" }))";
+    url = url.replace("-parameter", parameter);
+    alert(url);
+
+    $.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    success: function (result) {
+    alert(result);
+    $(".value-div1").html(result)
+    },
+    error: function () {
+    //handle your error here
+    }
+    });
+    });
+    }
+
+
+
+
+
+
+    function getViewTechSpec(parameter, sender) {
+    $(function () {
+
+
+    /*Change background color on button sender*/
+     $(sender).css('background-color', 'white');
+
+
+    var url = "@Html.Raw(Url.Action("TechSpec", "WebShop", new { id = "-parameter" }))";
+    url = url.replace("-parameter", parameter);
+    alert(url);
+
+    $.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    success: function (result) {
+    alert(result);
+    $(".value-div1").html(result)
+    },
+    error: function () {
+    //handle your error here
+    }
+    });
+    });
+    }
+
+
+
+    function getViewDescription(parameter,sender) {
+        $(function () {
+
+        /*Change background color on button sender*/
+        $(sender).css('background-color', 'white');
+
+    var url = "@Html.Raw(Url.Action("Description", "WebShop", new { id = "-parameter" }))";
+    url = url.replace("-parameter", parameter);
+    alert(url);
+
+    $.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    success: function (result) {
+    alert(result);
+    $(".value-div1").html(result)
+    },
+    error: function () {
+    //handle your error here
+    }
+    });
+    });
+    }
+
+
+
+    function getViewGeometry(parameter, sender)  { $(function () {
+    
+        /*Change background color on button sender*/
+        $(sender).css('background-color', 'white');
+
+    var url = "@Html.Raw(Url.Action("Geometry", "WebShop", new { id = "-parameter" }))";
+    url = url.replace("-parameter", parameter);
+    alert(url);
+
+    $.ajax({
+    url: url,
+    type: "GET",
+    cache: false,
+    success: function (result) {
+    alert(result);
+    $(".value-div1").html(result)
+    },
+    error: function () {
+    //handle your error here
+    }
+    });
+    });
+    }
+
+        </script>
+    }

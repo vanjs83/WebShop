@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WebShop.Models.ProductCategory>
+
+@{
+    ViewData["Title"] = "Welcome to Webshop";
+
+}
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/Cart/Index">Cart</a>
+    <a href="/WebShop/Product">Product</a>
+    <a href="/Home/Dashboard">Dashboard</a>
+    <a href="/Home/Index">Home</a>
+    <a href="/Home/About">About</a>
+    <a href="/Home/Contact/">Contact</a>
+    <a href="/Home/Gallery/">Gallery</a>
+
+</div>
+
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Webshop</span>
+
+<div class="breadcrump">
+    <h3 class="breadcrumb" style="color:crimson">@TempData["Message"]</h3>
+</div>
+
+
+<table id=tblShop class="table table-bordered table-responsive table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Available)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Image)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Available)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Price)
+                    <i class="glyphicon-euro"></i>
+                </td>
+                <td>
+
+                    @if (item.Product.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.Product.Image);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        <img src='@imgsrc' style="max-width:100px;max-height:100px" />
+                    }
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"> </script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script> 
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+
+
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#tblShop').dataTable({
+               
+                dom: 'lBfrtip',
+                buttons: [  'copy', 'csv', 'excel', 'pdf', 'print'],
+                "lengthMenu": [5, 10, 50, 100]
+               
+
+            });
+        });
+
+
+      
+
+    </script>
+
+}

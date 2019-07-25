@@ -1,0 +1,8 @@
+﻿create database webShopDb on (name='webShopDb', filename='E:\Repo\EasyBuy\WebShop\App_Data\Database.mdf');
+
+Update-Database -Context ApplicationDbContext 
+
+Add-Migration WebShop -Context DbShop -o Data/Migrations
+Update-Database -Context DbShop
+
+dotnet ef database update

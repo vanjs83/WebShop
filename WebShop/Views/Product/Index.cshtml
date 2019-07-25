@@ -1,0 +1,107 @@
+﻿@model IEnumerable<WebShop.Models.Product>
+
+@{
+    ViewData["Title"] = "Product";
+}
+
+
+
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/Home/About">About</a>
+    <a href="/MeasuringUnit/Index">Measuring Unit</a>
+    <a href="/Category/Index">Category</a>
+    <a href="/ProductCategory/">ProductCategory</a>
+</div>
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Product</span>
+
+<p>
+
+    <a asp-action="Create" class="btn btn-primary">Create new Product</a>
+
+</p>
+
+
+<table class="table table-bordered table-responsive-md table-striped text-center w-auto" >
+    <thead class="black white-text">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Available)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+
+          
+            <th>
+                @Html.DisplayNameFor(model => model.MeasuringUnit.Unit)
+            </th>
+
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Available)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                    <i class="glyphicon-euro"></i>
+                </td>
+                <td>
+
+                    @if (item.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.Image);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        <img src='@imgsrc' style="max-width:100px; max-height:100px" />
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeasuringUnit.Unit)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

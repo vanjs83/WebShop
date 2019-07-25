@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebShop.Models.OrderDetails>
+
+@{ 
+    decimal total = 0;
+}
+
+
+@foreach (var item in Model)
+{
+    <ol style="font-size:x-large">
+        <li>
+
+
+            @Html.DisplayFor(modelItem => item.Product.Name)
+
+            @Html.DisplayFor(modelItem => item.Product.MeasuringUnit.Unit)
+
+            @Html.DisplayFor(modelItem => item.PriceForItem) <i class="glyphicon-euro"></i> <span>X</span>
+
+            @Html.DisplayFor(modelItem => item.Quantity) <span>Kom</span>
+
+            @{
+                total = total + item.PriceForItem * item.Quantity;
+            }
+
+
+
+        </li>
+
+
+    </ol>
+}
+
+<p style="font-size: x-large"> Total for pay: @total <i class="glyphicon-euro"></i></p>
+
+
+

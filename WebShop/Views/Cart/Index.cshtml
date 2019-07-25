@@ -1,0 +1,122 @@
+﻿@model IEnumerable<WebShop.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/WebShop/Index">Product</a>
+    <a href="/WebShop/Index">Shopping</a>
+    <a href="/Home/Index">Home</a>
+    <a href="/Home/About">About</a>
+    <a href="/Cart/Index">Cart</a>
+</div>
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Cart</span>
+
+<p>
+    <a asp-action="Index" asp-controller="WebShop" class="btn btn-info">Back to Shopping</a>
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Available)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.MeasuringUnit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Available)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+
+                    @if (item.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.Image);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        <img src='@imgsrc' style="max-width:100px;max-height:100px" />
+                    }
+
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeasuringUnit.Unit)
+                </td>
+
+
+                <td>
+                    <a id="btn_add" href="@Url.Action("RemoveFromCart","Cart",  new { id = item.ProductId })" class="btn btn-danger btn-rounded btn-sm my-0">
+                        <span class="glyphicon glyphicon-trash"></span> Remove From Cart
+                    </a>
+                </td>
+
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<div>
+    <a id="btn_add" href="@Url.Action("CreateUser", "CheckOut")" class="btn btn-info btn-sm" style="margin-left:60px">
+        Checkout
+        <i class="fas fa-handshake"></i>
+    </a>
+</div>

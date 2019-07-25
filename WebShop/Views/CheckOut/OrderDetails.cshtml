@@ -1,0 +1,237 @@
+﻿@model WebShop.Models.Order
+
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+
+
+<h2>Order Details</h2>
+<h3>Your person data</h3>
+<hr />
+
+<dl class="dl-horizontal" style="font-size:large">
+
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.User.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.LastName)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.User.LastName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.Email)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.User.Email)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.Country)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.User.Country)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.City)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.User.City)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.User.Address)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.User.Address)
+    </dd>
+
+
+    <dd> Order details </dd>
+
+
+
+    <dt>
+        @Html.DisplayNameFor(model => model.DateCreate)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.DateCreate)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.DateDelivery)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.DateDelivery)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.IsDelivery)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IsDelivery)
+        @(Model.IsDelivery ? "Yes" : "No")
+    </dd>
+
+</dl>
+
+
+
+<h3>Order Product</h3>
+
+
+@{
+    decimal total = 0;
+}
+
+
+@foreach (var item in (List<OrderDetails>)ViewBag.Details)
+{
+    <ol style="font-size:x-large">
+        <li>
+
+
+            @Html.DisplayFor(modelItem => item.Product.Name)
+
+            @Html.DisplayFor(modelItem => item.Product.MeasuringUnit.Unit)
+
+            @Html.DisplayFor(modelItem => item.PriceForItem) <i class="glyphicon-euro"></i> <span>X</span>
+
+            @Html.DisplayFor(modelItem => item.Quantity) <span>Kom</span>
+
+            @{
+                total = total + item.PriceForItem * item.Quantity;
+            }
+
+        </li>
+    </ol>
+}
+
+
+<div class="breadcrumb alert-info">
+    <p style="font-size: x-large"> Total for pay: @total <i class="glyphicon-euro"></i></p>
+</div>
+
+
+@* @await Html.PartialAsync("_OrderDetails", (List<OrderDetails>)ViewBag.Details) *@
+
+
+
+<script src="https://js.braintreegateway.com/web/dropin/1.6.1/js/dropin.js"></script>
+
+<div id="dropin-container"></div>
+<button id="submit-button" class="button button--small button--green">Purchase</button>
+<p></p>
+
+
+
+
+
+<!--Paypal  client-id=sb-->
+<div id="paypal-button"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AUlsFT2XzVju2HJTSIDPyf8FksS0Uj3BhArH6WwE-FXxx9ks0Eh5P2x5l28yibSXbmNhwhEJRJDnf7hQ&currency=EUR"></script>
+<script>paypal.Buttons().render('paypal-button');</script>
+
+
+
+
+@section Scripts {
+
+    <script>
+
+     /*Braintree*/
+        var button = document.querySelector('#submit-button');
+
+        braintree.dropin.create({
+            authorization: 'sandbox_g42y39zw_348pk9cgf3bgyw2b',
+            selector: '#dropin-container',
+            amount: {
+                value: '@total'
+            }
+        }, function (err, instance) {
+            button.addEventListener('click', function () {
+                instance.requestPaymentMethod(function (err, payload) {
+                    // Submit payload.nonce to your server
+                });
+            })
+        });
+
+    
+
+
+
+    /*Paypayl*/
+
+    paypal.Buttons({
+    createOrder: function (data, actions) {
+    return actions.order.create({
+    purchase_units: [{
+    amount: {
+    value: '@total'
+
+    }
+    }]
+    });
+    },
+
+
+    @*onShippingChange: function (data, actions) {
+            // Reject non-US addresses
+            if (data.shipping_address.country_code !== 'USD') {
+                return actions.reject();
+            }
+
+            // Patch the shipping amount
+            const shippingAmount = data.address.state === 'CA' ? '0.00' : '5.00';
+            return actions.order.patch([
+                {
+                    op: 'replace',
+                    path: '/purchase_units/@reference_id==\'default\'/amount',
+                    value: {
+                        currency_code: 'USD',
+                        value: (baseOrderAmount + shippingAmount).toFixed(2),
+                        breakdown: {
+                            item_total: {
+                                currency_code: 'USD',
+                                value: baseOrderAmount
+                            },
+                            shipping: {
+                                currency_code: 'USD',
+                                value: shippingAmount
+                            }
+                        }
+                    }
+                }
+            ]);
+        },*@
+
+
+
+    onApprove: function (data, actions) {
+    return actions.order.capture().then(function (details) {
+    alert('Transaction completed by ' + details.payer.name.given_name);
+    // Call your server to save the transaction
+    return fetch('/paypal-transaction-complete', {
+    method: 'post',
+    headers: {
+    'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+    orderID: data.orderID
+    })
+    });
+    });
+    }
+    }).render('#paypal-button');
+
+
+    </script>
+
+}
+
