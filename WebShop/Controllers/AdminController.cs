@@ -23,7 +23,7 @@ namespace WebShop.Controllers
 
 
 
-        // GET: Admin
+      
         public ActionResult Index()
         {
             
